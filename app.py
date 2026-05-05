@@ -1,35 +1,27 @@
 from flask import Flask, request, jsonify
 import os
 from dotenv import load_dotenv
-from openai import OpenAI
+from groq import Groq
 from flask_cors import CORS
 
-# Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # ✅ Allow frontend requests
+CORS(app)
 
-# Config Class
 class Config:
-    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-    BASE_URL = "https://openrouter.ai/api/v1"
-    MODEL = "openai/gpt-4o-mini"
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    MODEL = "llama3-8b-8192"  # Free model on Groq
 
     @staticmethod
     def validate():
-        if not Config.OPENROUTER_API_KEY:
-            raise ValueError("❌ OPENROUTER_API_KEY not found in .env")
+        if not Config.GROQ_API_KEY:
+            raise ValueError("GROQ_API_KEY not found")
 
 Config.validate()
 
-# OpenAI Client
-client = OpenAI(
-    api_key=Config.OPENROUTER_API_KEY,
-    base_url=Config.BASE_URL
-)
+client = Groq(api_key=Config.GROQ_API_KEY)
 
-# AI Function
 def analyze_with_ai(logs: str) -> str:
     try:
         response = client.chat.completions.create(
@@ -49,14 +41,11 @@ def analyze_with_ai(logs: str) -> str:
             ],
             max_tokens=300
         )
-
         return response.choices[0].message.content
-
     except Exception as e:
         return f"AI Error: {str(e)}"
 
 
-# Routes
 @app.route("/")
 def home():
     return jsonify({

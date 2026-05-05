@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install flask python-dotenv
+RUN pip install flask python-dotenv groq flask-cors
 
 EXPOSE 5000
 
