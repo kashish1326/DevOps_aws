@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Log Analyzer</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+
+        .container {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            margin: auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 AI Log Analyzer</h1>
+
+    <div class="container">
+        <h3>Paste Logs Below</h3>
+
+        <textarea id="logs" placeholder="Example: Error 500: Database failed..."></textarea>
+
+        <br>
+        <button onclick="analyzeLogs()">Analyze Logs</button>
+
+        <div id="result">Result will appear here...</div>
+    </div>
+
+    <script>
+async function analyzeLogs() {
+    const logs = document.getElementById("logs").value;
+    const resultDiv = document.getElementById("result");
+
+    if (!logs.trim()) {
+        resultDiv.innerText = "⚠️ Please enter logs!";
+        return;
+    }
+
+    resultDiv.innerText = "⏳ Analyzing logs...";
+
+    try {
+        const response = await fetch("http://localhost:5000/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ logs })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            resultDiv.innerText = data.analysis;
+        } else {
+            resultDiv.innerText = "❌ Error: " + data.error;
+        }
+
+    } catch (error) {
+        resultDiv.innerText = "❌ Server not reachable!";
+    }
+}
+</script>
+
+</body>
+</html>
