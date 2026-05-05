@@ -111,7 +111,7 @@ jobs:
             # --restart always = auto-restart if server reboots
             docker run -d \
               --name my-app-container \
-              -p 80:3000 \
+              -p 80:5000 \
               --restart always \
               $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
