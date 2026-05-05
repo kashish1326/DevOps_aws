@@ -107,7 +107,7 @@ jobs:
             # Run the new container
             # -d = run in background
             # --name = give it a name
-            # -p 80:3000 = map port 80 (public) to port 3000 (your app)
+            # -p 80:5000= map port 80 (public) to port 5000 (your app)
             # --restart always = auto-restart if server reboots
             docker run -d \
               --name my-app-container \
