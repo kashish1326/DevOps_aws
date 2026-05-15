@@ -1,12 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from groq import Groq
-from flask_cors import CORS
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 CORS(app)
 
 class Config:
@@ -46,13 +46,9 @@ def analyze_with_ai(logs: str) -> str:
         return f"AI Error: {str(e)}"
 
 
-@app.route("/")
-def home():
-    return jsonify({
-        "status": "running",
-        "message": "🚀 AI Log Analyzer API is live"
-    })
-
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
 
 @app.route("/analyze", methods=["POST"])
 def analyze_logs():

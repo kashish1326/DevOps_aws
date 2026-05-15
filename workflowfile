@@ -1,0 +1,7 @@
+your-project/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml    ← Create this file
+├── Dockerfile
+├── .dockerignore
+└── (your app files)

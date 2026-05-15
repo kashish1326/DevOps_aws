@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial;
-            background: linear-gradient(to right, #667eea, #764ba2);
+            background: linear-gradient(to right, #d18ff1, #e6d9f4);
             text-align: center;
             padding: 40px;
             color: white;
@@ -78,7 +78,7 @@ async function analyzeLogs() {
     resultDiv.innerText = "⏳ Analyzing logs...";
 
     try {
-        const response = await fetch("http://localhost:5000/analyze", {
+        const response = await fetch("/analyze", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
